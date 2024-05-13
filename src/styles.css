@@ -1,23 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,100&family=Poetsen+One&display=swap');
 
 #root { 
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(180deg, rgba(0,212,255,0.5) 50%, rgba(126,217,0,0.5) 100%);
+    background: linear-gradient(180deg, rgba(0,212,255,0.5) 0%, rgba(255,255,255,1) 100%);
 }
 
-.ui.container {
-    background-color: rgba(0, 0, 0, 0.15);
-    border-radius: 6rem;
+#main {
+    background-color: #202124;
+    border-radius: 3rem;
     padding: 2rem;
+    box-shadow: 0px 0px 56px -1px rgba(0,0,0,0.41);
+    width: 40%;
 }
 
 #pageHeader {
-    font-family: "roboto-light", sans-serif;
-    font-weight: normal;
-    text-align: center;
+    font-family: "Josefin Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    text-align: left;
+    font-size: 3em;
+    color: #ffffff;
+}
+
+#pageHeader::after {
+    border: solid 1px #ffffff;
+}
+
+#pageSubheader {
     color: #ffffff;
 }
 
@@ -35,7 +48,13 @@
 }
 
 .ui.primary.button {
-    width: 20%;
+    max-width: 40%;
     margin: 0 auto;
     display: block;
+}
+
+.weatherData {
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
 }

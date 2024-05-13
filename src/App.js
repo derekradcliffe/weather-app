@@ -5,8 +5,8 @@ import { Container, Header } from 'semantic-ui-react';
 
 const App = () => {
   return (
-    <Container >
-      <Header size='huge' id='pageHeader'>Whats the weather?</Header>
+    <Container id="main">
+      <Header size='huge' id='pageHeader'>WeatHere</Header>
       <Weather />
     </Container >
   );

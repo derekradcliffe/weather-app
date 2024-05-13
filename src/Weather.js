@@ -25,8 +25,6 @@ const Weather = () => {
       setLat(position.coords.latitude);
       setLong(position.coords.longitude);
     });
-
-    fetchData();
   }, [lat, long]);
 
   const handleSubmit = (e) => {
@@ -40,23 +38,23 @@ const Weather = () => {
 
       {weatherData ? (
         <>
-          <Header as='h1'>{weatherData.name}</Header>
+          <Header as='h1' id="pageSubheader">Currently in {weatherData.name}</Header>
 
           <Grid columns={3}>
             <GridRow>
               <GridColumn>
                 <Container>
-                  <p>Temperature: {weatherData.main.temp}°C</p>
+                  <div className='weatherData'>Temperature: {Math.round(weatherData.main.temp)}°F</div>
                 </Container>
               </GridColumn>
               <GridColumn>
                 <Container>
-                  <p>Description: {weatherData.weather[0].description}</p>
+                  <div className='weatherData'>Description: {weatherData.weather[0].description}</div>
                 </Container>
               </GridColumn>
               <GridColumn>
                 <Container>
-                  <p>Feels like : {weatherData.main.feels_like}°C</p>
+                  <div className='weatherData'>Feels like : {Math.round(weatherData.main.feels_like)}°F</div>
                 </Container>
               </GridColumn>
             </GridRow>
@@ -64,24 +62,24 @@ const Weather = () => {
             <GridRow>
               <GridColumn>
                 <Container>
-                  <p>Humidity : {weatherData.main.humidity}%</p>
+                  <div className='weatherData'>Humidity : {weatherData.main.humidity}%</div>
                 </Container>
               </GridColumn>
               <GridColumn>
                 <Container>
-                  <p>Pressure : {weatherData.main.pressure}</p>
+                  <div className='weatherData'>Pressure : {weatherData.main.pressure}</div>
                 </Container>
               </GridColumn>
               <GridColumn>
                 <Container>
-                  <p>Wind Speed : {weatherData.wind.speed}m/s</p>
+                  <div className='weatherData'>Wind Speed : {Math.round(weatherData.wind.speed)} mph</div>
                 </Container>
               </GridColumn>
             </GridRow>
           </Grid>
         </>
       ) : (
-        <Header size='medium'>Click the button to find out your local weather</Header>
+        <></>
       )}
     </div>
   );
