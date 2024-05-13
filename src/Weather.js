@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './styles.css';
-import { Button, FormField, Header, Grid, GridColumn, GridRow } from 'semantic-ui-react';
+import { Button, Header, Grid, GridColumn, GridRow, Container } from 'semantic-ui-react';
 
 const Weather = () => {
-  const [city, setCity] = useState('');
   const [weatherData, setWeatherData] = useState(null);
+  const [lat, setLat] = useState([]);
+  const [long, setLong] = useState([]);
 
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${process.env.REACT_APP_ID}`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=imperial&appid=${process.env.REACT_APP_ID}`
       );
       setWeatherData(response.data);
       console.log(response.data);
@@ -20,12 +21,13 @@ const Weather = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    navigator.geolocation.getCurrentPosition(function (position) {
+      setLat(position.coords.latitude);
+      setLong(position.coords.longitude);
+    });
 
-  const handleInputChange = (e) => {
-    setCity(e.target.value);
-  };
+    fetchData();
+  }, [lat, long]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,53 +36,52 @@ const Weather = () => {
 
   return (
     <div>
-      <FormField className='inputForm' onSubmit={handleSubmit}>
-        <input
-          type = "text"
-          placeholder = "Enter city name"
-          value = {city}
-          onChange = {handleInputChange}
-        />
-        <Button primary class="ui button" type = "submit">Get the Weather</Button>
-      </FormField>
+      <Button primary className="ui button" type="submit" onClick={handleSubmit}>Lets Find Out</Button>
+
       {weatherData ? (
         <>
-        <h2>{weatherData.name}</h2>
-          {/* <p>Temperature: {weatherData.main.temp}°C</p> */}
-          {/* <p>Description: {weatherData.weather[0].description}</p> */}
-          {/* <p>Feels like : {weatherData.main.feels_like}°C</p> */}
-          {/* <p>Humidity : {weatherData.main.humidity}%</p>
-          <p>Pressure : {weatherData.main.pressure}</p>
-          <p>Wind Speed : {weatherData.wind.speed}m/s</p> */}
+          <Header as='h1'>{weatherData.name}</Header>
 
           <Grid columns={3}>
-    <GridRow>
-        <GridColumn>
-            <p>Temperature: {weatherData.main.temp}°C</p>
-        </GridColumn>
-        <GridColumn>
-            <p>Description: {weatherData.weather[0].description}</p>
-        </GridColumn>
-        <GridColumn>
-            <p>Feels like : {weatherData.main.feels_like}°C</p>
-        </GridColumn>
-    </GridRow>
+            <GridRow>
+              <GridColumn>
+                <Container>
+                  <p>Temperature: {weatherData.main.temp}°C</p>
+                </Container>
+              </GridColumn>
+              <GridColumn>
+                <Container>
+                  <p>Description: {weatherData.weather[0].description}</p>
+                </Container>
+              </GridColumn>
+              <GridColumn>
+                <Container>
+                  <p>Feels like : {weatherData.main.feels_like}°C</p>
+                </Container>
+              </GridColumn>
+            </GridRow>
 
-    <GridRow>
-      <GridColumn>
-      <p>Humidity : {weatherData.main.humidity}%</p>
-      </GridColumn>
-      <GridColumn>
-      <p>Pressure : {weatherData.main.pressure}</p>
-      </GridColumn>
-      <GridColumn>
-      <p>Wind Speed : {weatherData.wind.speed}m/s</p>
-      </GridColumn>
-    </GridRow>
-  </Grid>
+            <GridRow>
+              <GridColumn>
+                <Container>
+                  <p>Humidity : {weatherData.main.humidity}%</p>
+                </Container>
+              </GridColumn>
+              <GridColumn>
+                <Container>
+                  <p>Pressure : {weatherData.main.pressure}</p>
+                </Container>
+              </GridColumn>
+              <GridColumn>
+                <Container>
+                  <p>Wind Speed : {weatherData.wind.speed}m/s</p>
+                </Container>
+              </GridColumn>
+            </GridRow>
+          </Grid>
         </>
       ) : (
-        <Header size='medium'>Please enter a city</Header>
+        <Header size='medium'>Click the button to find out your local weather</Header>
       )}
     </div>
   );
