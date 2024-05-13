@@ -10,7 +10,7 @@ const Weather = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=4a8da96a2cb33e9e41ab23fe52a43e65`
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${process.env.REACT_APP_ID}`
       );
       setWeatherData(response.data);
       console.log(response.data);
