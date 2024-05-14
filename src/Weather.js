@@ -1,25 +1,30 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import './styles.css';
-import { Button, Header, Grid, GridColumn, GridRow, Container } from 'semantic-ui-react';
+import { Button, Header, Grid, GridColumn, GridRow, Container, Loader, Dimmer } from 'semantic-ui-react';
 
 const Weather = () => {
   const [weatherData, setWeatherData] = useState(null);
+  const [loading, setLoading] = useState(false);
   const lat = useRef(null);
   const long = useRef(null);
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat.current}&lon=${long.current}&units=imperial&appid=${process.env.REACT_APP_ID}`
       );
       setWeatherData(response.data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleGetLocation = () => {
+    setLoading(true);
     navigator.geolocation.getCurrentPosition(function (position) {
       lat.current = position.coords.latitude;
       long.current = position.coords.longitude;
@@ -31,7 +36,11 @@ const Weather = () => {
     <div>
       <Button primary className="ui button" type="submit" onClick={handleGetLocation}>Let's Find Out</Button>
 
-      {weatherData ? (
+      {loading ? (
+        <Dimmer active>
+          <Loader active inverted>Fetching Weather...</Loader>
+        </Dimmer>
+      ) : weatherData ? (
         <>
           <Header as='h1' id="pageSubheader" className='slide-top'>Currently in {weatherData.name}</Header>
 
