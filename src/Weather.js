@@ -12,8 +12,12 @@ const Weather = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
+      // const response = await axios.get(
+      //   `https://api.openweathermap.org/data/2.5/weather?lat=${lat.current}&lon=${long.current}&units=imperial&appid=${process.env.REACT_APP_ID}`
+      // );
+
       const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat.current}&lon=${long.current}&units=imperial&appid=${process.env.REACT_APP_ID}`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat.current}&lon=${long.current}&units=imperial&appid=4a8da96a2cb33e9e41ab23fe52a43e65`
       );
       setWeatherData(response.data);
     } catch (error) {
