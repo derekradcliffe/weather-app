@@ -5,6 +5,7 @@ import { Button, Header, Grid, GridColumn, GridRow, Container, Loader, Dimmer } 
 
 const Weather = () => {
   const [weatherData, setWeatherData] = useState(null);
+  const [cityData, setCityData] = useState(null);
   const [loading, setLoading] = useState(false);
   const lat = useRef(null);
   const long = useRef(null);
@@ -13,9 +14,17 @@ const Weather = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat.current}&lon=${long.current}&units=imperial&appid=${process.env.REACT_APP_ID}`
+        `https://api.weather.gov/points/${lat.current},${long.current}`
       );
-      setWeatherData(response.data);
+
+      const cityResponse = await axios.get(
+        `https://nominatim.openstreetmap.org/reverse?lat=${lat.current}&lon=${long.current}&format=json`
+      );
+
+      const forcastResponse = await axios.get(response.data.properties.forecast);
+      console.log(forcastResponse);
+      setWeatherData(forcastResponse.data);
+      setCityData(cityResponse.data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -23,7 +32,7 @@ const Weather = () => {
     }
   };
 
-  const handleGetLocation = () => {
+  const handleGetLocation = async () => {
     setLoading(true);
     navigator.geolocation.getCurrentPosition(function (position) {
       lat.current = position.coords.latitude;
@@ -34,7 +43,7 @@ const Weather = () => {
 
   return (
     <div>
-      <Button primary className="ui button" type="submit" onClick={handleGetLocation}>Let's Find Out</Button>
+      <Button primary className="ui button" type="submit" onClick={handleGetLocation}>Get me the weather</Button>
 
       {loading ? (
         <Dimmer active>
@@ -42,45 +51,73 @@ const Weather = () => {
         </Dimmer>
       ) : weatherData ? (
         <>
-          <Header as='h1' id="pageSubheader" className='slide-top'>Currently in {weatherData.name}</Header>
+        <div class='gridWrapper slide-top'>
+        <Header as='h1' id="pageSubheaderCurrent" className='slide-top'>Currently in {cityData.address.suburb}</Header>
 
-          <Grid columns={3}>
-            <GridRow>
-              <GridColumn>
-                <Container>
-                  <div className='weatherData slide-top'>Temperature: {Math.round(weatherData.main.temp)}°F</div>
-                </Container>
-              </GridColumn>
-              <GridColumn>
-                <Container>
-                  <div className='weatherData slide-top'>Description: {weatherData.weather[0].description}</div>
-                </Container>
-              </GridColumn>
-              <GridColumn>
-                <Container>
-                  <div className='weatherData slide-top'>Feels like : {Math.round(weatherData.main.feels_like)}°F</div>
-                </Container>
-              </GridColumn>
-            </GridRow>
+        <Grid className='current' stackable columns={3}>
+          <GridRow>
+            <GridColumn width={5}>
+              <Container>
+                <div className='weatherData slide-top'>Temperature: {Math.round(weatherData.properties.periods[0].temperature)}°F</div>
+              </Container>
+            </GridColumn>
 
-            <GridRow>
-              <GridColumn>
-                <Container>
-                  <div className='weatherData slide-top'>Humidity : {weatherData.main.humidity}%</div>
-                </Container>
-              </GridColumn>
-              <GridColumn>
-                <Container>
-                  <div className='weatherData slide-top'>Pressure : {weatherData.main.pressure}</div>
-                </Container>
-              </GridColumn>
-              <GridColumn>
-                <Container>
-                  <div className='weatherData slide-top'>Wind Speed : {Math.round(weatherData.wind.speed)} mph</div>
-                </Container>
-              </GridColumn>
-            </GridRow>
-          </Grid>
+            <GridColumn width={5}>
+              <Container>
+                <div className='weatherData slide-top'>Description: {weatherData.properties.periods[0].shortForecast}</div>
+              </Container>
+            </GridColumn>
+            
+            <GridColumn width={5}>
+              <Container>
+                <div className='weatherData slide-top'>Wind Speed: {weatherData.properties.periods[0].windSpeed}</div>
+              </Container>
+            </GridColumn>
+          </GridRow>
+
+          <GridRow>
+            <GridColumn width={16}>
+              <Container>
+                <div className='weatherData slide-top'>More Details: {weatherData.properties.periods[0].detailedForecast}</div>
+              </Container>
+            </GridColumn>
+          </GridRow>
+        </Grid>
+        </div>
+
+        <div class='gridWrapper slide-top'>
+        <Header as='h1' id="pageSubheaderTomorrow" className='slide-top'>Tomorrow in {cityData.address.suburb}</Header>
+
+        <Grid className='tomorrow' stackable columns={3}>
+          <GridRow>
+            <GridColumn width={5}>
+              <Container>
+                <div className='weatherData slide-top'>Temperature: {Math.round(weatherData.properties.periods[1].temperature)}°F</div>
+              </Container>
+            </GridColumn>
+
+            <GridColumn width={5}>
+              <Container>
+                <div className='weatherData slide-top'>Description: {weatherData.properties.periods[1].shortForecast}</div>
+              </Container>
+            </GridColumn>
+            
+            <GridColumn width={5}>
+              <Container>
+                <div className='weatherData slide-top'>Wind Speed: {weatherData.properties.periods[1].windSpeed}</div>
+              </Container>
+            </GridColumn>
+          </GridRow>
+
+          <GridRow>
+            <GridColumn width={16}>
+              <Container>
+                <div className='weatherData slide-top'>More Details: {weatherData.properties.periods[1].detailedForecast}</div>
+              </Container>
+            </GridColumn>
+          </GridRow>
+        </Grid>
+        </div>
         </>
       ) : (
         <></>

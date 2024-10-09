@@ -59,8 +59,16 @@
     border: solid 1px #ffffff;
 }
 
-#pageSubheader {
+#pageSubheaderCurrent,
+#pageSubheaderTomorrow {
     color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    #pageSubheaderCurrent,
+    #pageSubheaderTomorrow {
+        text-align: center;
+    }
 }
 
 .ui.header.medium {
@@ -77,13 +85,23 @@
 }
 
 .ui.primary.button {
-    max-width: 40%;
     margin: 0 auto;
     display: block;
+    margin-bottom: 1rem;
 }
 
 .weatherData {
     color: #ffffff;
     display: flex;
     flex-direction: column;
+}
+
+.gridWrapper {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 2rem;
+    padding: 1rem;
+}
+
+.gridWrapper:nth-child(3) {
+    margin-top: 2rem;
 }
