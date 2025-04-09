@@ -1,6 +1,6 @@
 import React from 'react';
 import Weather from './Weather';
-import './styles.css';
+import './styles/App.css';
 import { Container, Header } from 'semantic-ui-react';
 
 const App = () => {

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
-import './styles.css';
+import './styles/styles.css';
 import { Button, Header, Grid, GridColumn, GridRow, Container, Loader, Dimmer } from 'semantic-ui-react';
 
 const Weather = () => {
@@ -54,31 +54,31 @@ const Weather = () => {
         <div class='gridWrapper slide-top'>
         <Header as='h1' id="pageSubheaderCurrent" className='slide-top'>Currently in {cityData.address.suburb}</Header>
 
-        <Grid className='current' stackable columns={3}>
-          <GridRow>
+        <Grid className='current' stackable columns={1}>
+          <GridColumn>
             <GridColumn width={5}>
               <Container>
-                <div className='weatherData slide-top'>Temperature: {Math.round(weatherData.properties.periods[0].temperature)}°F</div>
+                <div className='weatherData slide-top'><span><b>Temperature:</b> {Math.round(weatherData.properties.periods[0].temperature)}°F</span></div>
               </Container>
             </GridColumn>
 
             <GridColumn width={5}>
               <Container>
-                <div className='weatherData slide-top'>Description: {weatherData.properties.periods[0].shortForecast}</div>
+                <div className='weatherData slide-top'><span><b>Description:</b> {weatherData.properties.periods[0].shortForecast}</span></div>
               </Container>
             </GridColumn>
             
             <GridColumn width={5}>
               <Container>
-                <div className='weatherData slide-top'>Wind Speed: {weatherData.properties.periods[0].windSpeed}</div>
+                <div className='weatherData slide-top'><span><b>Wind Speed:</b> {weatherData.properties.periods[0].windSpeed}</span></div>
               </Container>
             </GridColumn>
-          </GridRow>
+          </GridColumn>
 
           <GridRow>
             <GridColumn width={16}>
               <Container>
-                <div className='weatherData slide-top'>More Details: {weatherData.properties.periods[0].detailedForecast}</div>
+                <div className='weatherData details slide-top'><b>More Details:</b> {weatherData.properties.periods[0].detailedForecast}</div>
               </Container>
             </GridColumn>
           </GridRow>
@@ -88,31 +88,31 @@ const Weather = () => {
         <div class='gridWrapper slide-top'>
         <Header as='h1' id="pageSubheaderTomorrow" className='slide-top'>Tomorrow in {cityData.address.suburb}</Header>
 
-        <Grid className='tomorrow' stackable columns={3}>
-          <GridRow>
+        <Grid className='tomorrow' stackable columns={1}>
+          <GridColumn>
             <GridColumn width={5}>
               <Container>
-                <div className='weatherData slide-top'>Temperature: {Math.round(weatherData.properties.periods[1].temperature)}°F</div>
+                <div className='weatherData slide-top'><span><b>Temperature:</b> {Math.round(weatherData.properties.periods[1].temperature)}°F</span></div>
               </Container>
             </GridColumn>
 
             <GridColumn width={5}>
               <Container>
-                <div className='weatherData slide-top'>Description: {weatherData.properties.periods[1].shortForecast}</div>
+                <div className='weatherData slide-top'><span><b>Description:</b> {weatherData.properties.periods[1].shortForecast}</span></div>
               </Container>
             </GridColumn>
             
             <GridColumn width={5}>
               <Container>
-                <div className='weatherData slide-top'>Wind Speed: {weatherData.properties.periods[1].windSpeed}</div>
+                <div className='weatherData slide-top'><span><b>Wind Speed:</b> {weatherData.properties.periods[1].windSpeed}</span></div>
               </Container>
             </GridColumn>
-          </GridRow>
+          </GridColumn>
 
           <GridRow>
             <GridColumn width={16}>
               <Container>
-                <div className='weatherData slide-top'>More Details: {weatherData.properties.periods[1].detailedForecast}</div>
+                <div className='weatherData details slide-top'><b>More Details:</b> {weatherData.properties.periods[1].detailedForecast}</div>
               </Container>
             </GridColumn>
           </GridRow>
