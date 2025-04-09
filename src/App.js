@@ -6,7 +6,9 @@ import { Container, Header } from 'semantic-ui-react';
 const App = () => {
   return (
     <Container id="main">
-      <Header size='huge' id='pageHeader'>WeatHere</Header>
+      <Header size='huge' id='pageHeader'>
+        <div className='mainHeader'>WeatHere<span className="material-symbols-outlined">location_on</span></div>
+      </Header>
       <Weather />
     </Container >
   );
