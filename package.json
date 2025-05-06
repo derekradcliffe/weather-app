@@ -16,10 +16,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "predeploy": "npm run build",
+    "predeploy": "npm run build:github",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "env-cmd -f .env.netlify react-scripts build",
+    "build:github": "env-cmd -f .env.github react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -42,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "env-cmd": "^10.1.0",
     "gh-pages": "^6.1.1"
   }
 }
