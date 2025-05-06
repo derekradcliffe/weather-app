@@ -25,6 +25,8 @@ const Weather = () => {
       console.log(forcastResponse);
       setWeatherData(forcastResponse.data);
       setCityData(cityResponse.data);
+      console.log(cityResponse.data.address.town);
+      
     } catch (error) {
       console.error(error);
     } finally {
@@ -52,7 +54,7 @@ const Weather = () => {
       ) : weatherData ? (
         <>
         <div class='gridWrapper slide-top'>
-        <Header as='h1' id="pageSubheaderCurrent" className='slide-top'>Currently in {cityData.address.suburb}</Header>
+        <Header as='h1' id="pageSubheaderCurrent" className='slide-top'>Currently in {cityData.address.town}</Header>
 
         <Grid className='current' stackable columns={1}>
           <GridColumn>
@@ -86,7 +88,7 @@ const Weather = () => {
         </div>
 
         <div class='gridWrapper slide-top'>
-        <Header as='h1' id="pageSubheaderTomorrow" className='slide-top'>Tomorrow in {cityData.address.suburb}</Header>
+        <Header as='h1' id="pageSubheaderTomorrow" className='slide-top'>Tomorrow in {cityData.address.town}</Header>
 
         <Grid className='tomorrow' stackable columns={1}>
           <GridColumn>
